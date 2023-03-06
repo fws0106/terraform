@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Terraform Workshop</title>
+    <link rel="icon" href="Huawei.png" type="image/png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Add some basic styles to our page */
+        h1 {
+            text-align: center;
+            font-family: Tahoma, sans-serif;
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+        img {
+			display: block;
+			margin: 0 auto;
+            width: 698;
+            height: 306;
+            border: 0
+		}
+        p {
+            font-family: "Times New Roman", sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            margin-top: 0cm;
+            margin-right: 0cm;
+            margin-bottom: .0001pt;
+            margin-left: 0cm;
+            line-height: normal;
+            text-align: justify;
+		}
+        li {
+            font-family: "Times New Roman", sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #3e8e41;
+        }
+    </style>
+</head>
+<body>
+    <h1>Huawei Cloud Resource Provisioning with Terraform</h1>
+    <p><strong><span style="font-size:25px;">Introduction</span></strong></p>
+    <p><span style="font-size:16px;">&nbsp;</span></p>
+    <p><span>This workshop aims to educate cloud practitioners on the use of Terraform to provision Huawei Cloud resources. Terraform is an open-source Infrastructure as Code (IaC) tool that practices a declarative approach which then allows you to define the cloud resources in human-readable configuration files that you can version, reuse, and share. Terraform facilitates the management of low-level components such as computing, storage, and networking resources as well as high-level components like DNS entries and SaaS features.</span></p>
+    <p><span style="font-size:16px;">&nbsp;</span></p>
+    <p><strong><span style="font-size:25px;">Learning Outcomes</span></strong></p>
+    <p><span style="font-size:16px;">&nbsp;</span></p>
+    <p><span>This workshop provides a hands-on lab by introducing you to the provisioning of Huawei Cloud resources with Terraform and Terraform Providers using IaC. It is composed of several modules in which each module has a different learning objective. Throughout the workshop, you will be exposed to the HashiCrop Language (HCL), the low-level syntax of the Terraform language, and the Huawei Cloud provider for Terraform which leverages the Huawei Cloud control API to provide a set of API actions required for resource provisioning and managing.</span></p>
+    <p><span style="font-size:16px;">&nbsp;</span></p>
+    <p><span>At the end of the workshop, you will be able to:</span></p>
+    <ul>
+        <li><span>Use Terraform to automate Huawei Cloud resource provisioning in a declarative way</span></li>
+        <li><span>Use module blocks to call configuration files in root modules under a different directory</span></li>
+        <li><span>Use Terraform to manage resources in a cloud environment</span></li>
+    </ul>
+    <p><span style="font-size:16px;">&nbsp;</span></p>
+    <p><strong><span style="font-size:25px;">Target Audience</span></strong></p>
+    <p><span style="font-size:16px;">&nbsp;</span></p>
+    <p><span style="font-size:16px;">This workshop has been developed specifically for the engineers and operators who work on Huawei Cloud resources. Anyone interested in Terraform is welcome.</span></p>
+    <p><span style="font-size:16px;">&nbsp;</span></p>
+    <p><strong><span style="font-size:25px;">Duration</span></strong></p>
+    <p><span style="font-size:16px;">&nbsp;</span></p>
+    <p><span>On overage, completing all the labs in this workshop will take around 3 hours.</span></p>
+    <p><span style="font-size:16px;">&nbsp;</span></p>
+    <p><strong><span style="font-size:25px;">Prerequisites</span></strong></p>
+    <p><span>Before entering this workshop, you should have some familiarity below:</span></p>
+    <ul style="list-style-type: disc; margin-left:26px;">
+        <li><span style="font-size:12.0pt;">Basic understanding of Huawei Cloud resources</span></li>
+        <li><span style="font-size:12.0pt;">Basic understanding of Terraform command line</span></li>
+        <li><span style="font-size:12.0pt;">Basic understanding of Terraform modules</span></li>
+    </ul>
+    <p><span style="font-size:16px;">&nbsp;</span></p>
+    <p><strong><span style="font-size:25px;">Getting Started</span></strong></p>
+    <p><span style="font-size:16px;">&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><strong><span style="font-size:17px;color:#0070C0;">Prerequisites</span></strong></p>
+    <p><span style="font-size:16px;">&nbsp;</span></p>
+    <p>The following pre-requisite is required to kick-start the hands-on lab:</span></p>
+    <ul style="list-style-type: disc;margin-left:26px;">
+        <li><span style="font-size:12.0pt;">A computer with a stable internet connection and Terraform installed</span></li>
+        <li><span style="font-size:12.0pt;">A Huawei Cloud Testing account with required IAM least-privilege permissions</span></li>
+        <li><span style="font-size:12.0pt;">Basic knowledge of Huawei Cloud and Terraform</span></li>
+    </ul>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><strong><span style="font-size:17px;color:#0070C0;">Open the Huawei Cloud console</span></strong></p>
+    <p><span style="font-size:16px;">&nbsp;</span></p>
+    <p>You may navigate to the Huawei Cloud console via this&nbsp;</span><a href="https://auth.huaweicloud.com/authui/login.html?locale=en-us&service=https%3A%2F%2Fwww.huaweicloud.com%2Fintl%2Fen-us%2F%23/login"><span style="font-size:16px;color:#0070C0;">Huawei Cloud Login</span></a><span style="font-size:16px;">. On the login page, enter the provided temporary credentials by your administrator to access the console.</span></p>
+    <img src="images/P1.1.PNG">
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><strong><span style="font-size:17px;color:#0070C0;">Obtain the AK/SK for Terraform usage</span></strong></p>
+    <p><span style="font-size:16px;">&nbsp;</span></p>
+    <p>To use Terraform on Huawei Cloud, you need to have the credential which is access and secret key (AK/SK) to allow the API requests to be made in Terraform by an IAM user. You may follow the below guide to obtain your own AK/SK.</span></p>
+    <p><span style="font-size:16px;">&nbsp;</span></p>
+    <p><span>1. On the upper right corner, select <strong>My Credentials</strong>.</span></p>
+    <p><span>2. In the My Credentials console, click on Create Access Key.&nbsp;</span></p>
+    <p><span>3. Enter the AK/SK description and click on OK button.</span></p>
+    <p><span>4. Once the key is successfully created, download the key and store it on your local machine for later use.</span></p>
+    <p><span style="font-size:16px;">&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><strong><span style="font-size:17px;color:#0070C0;">Obtain the Terraform source code</span></strong></p>
+    <p><span style="font-size:16px;">&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">You are required to clone the terraform source code from GitHub on your local machine to be used in this hands-on lab.</span></p>
+    <p><span style="font-size:16px;">&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">Open the terminal from any code editor, and enter the below command.&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;background:#D9D9D9;">git clone&nbsp;</span><a href="https://github.com/hwcloud-apac-pso/hwcloud-terraform-workshop.git"><span style="font-size:16px;color:#0070C0;background:#D9D9D9;">https://github.com/hwcloud-apac-pso/hwcloud-terraform-workshop.git</span></a></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">You should get a source code with a similar directory structure as shown below.</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><strong><span style="font-size:19px;">Terraform Concepts</span></strong></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">This section will give you a brief understanding of high-level Terraform basic concepts and the provider used for resource provisioning in Huawei Cloud.</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><strong><span style="font-size:16px;color:#0070C0;">&nbsp;</span></strong></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><strong><span style="font-size:17px;color:#0070C0;">Terraform Concepts</span></strong></p>
+    <p><span style="font-size:16px;">&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">Below are some of the common terms used in Terraform for deployment:</span></p>
+    <ul style="list-style-type: disc;margin-left:26px;">
+        <li><strong><span style="font-family:SimSun;font-size:16px;">Modules:</span></strong><span style="font-family:SimSun;font-size:16px;">&nbsp;A module consists of multiple resources that are grouped together under the same directory. They are reusable blocks that can be called and reused resource configuration by declaring the required parameters in multiple environments.</span></li>
+        <li><strong><span style="font-family:SimSun;font-size:16px;">Resources:</span></strong><span style="font-family:SimSun;font-size:16px;">&nbsp;Resources are the blocks that typically deploy the Huawei Cloud resources in your account.</span></li>
+        <li><strong><span style="font-family:SimSun;font-size:16px;">Providers:</span></strong><span style="font-family:SimSun;font-size:16px;">&nbsp;Providers abstract the upstream APIs and define the resources that you will use in your .tf files.</span></li>
+    </ul>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><strong><span style="font-size:17px;color:#0070C0;">&nbsp;</span></strong></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><strong><span style="font-size:17px;color:#0070C0;">Terraform Provider</span></strong></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">Terraform supports many providers for deploying and managing resources. The provider that we will be focusing on in this workshop is the&nbsp;</span><a href="https://registry.terraform.io/providers/huaweicloud/huaweicloud/latest/docs/resources/api_gateway_api"><span style="font-size:16px;color:#0070C0;">Huawei Cloud</span></a><span style="font-size:16px;">&nbsp;provider. You may obtain detailed documentation on the Huawei cloud services that are supported by Terraform on this&nbsp;</span><a href="https://registry.terraform.io/providers/huaweicloud/huaweicloud/latest/docs/resources/api_gateway_api"><span style="font-size:16px;color:#0070C0;">Huawei Cloud</span></a><span style="font-size:16px;">&nbsp;website.</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><strong><span style="font-size:17px;">&nbsp;</span></strong></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><strong><span style="font-size:17px;color:#0070C0;">Terraform Command</span></strong></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><strong><span style="font-size:16px;">&nbsp;</span></strong></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">Below are some of the useful commands used in Terraform for deployment:</span></p>
+    <ul style="list-style-type: disc;margin-left:26px;">
+        <li><strong><span style="font-family:SimSun;font-size:16px;">terraform init:&nbsp;</span></strong><span style="font-family:SimSun;font-size:16px;">It initializes the working directory containing Terraform configuration files and installs any required plugins.</span></li>
+        <li><strong><span style="font-family:SimSun;font-size:16px;">terraform validate:&nbsp;</span></strong><span style="font-family:SimSun;font-size:16px;">It performs a syntax check on all Terraform files in the directory specified and displays warnings and errors if any files contain invalid syntax.</span></li>
+        <li><strong><span style="font-family:SimSun;font-size:16px;">terraform plan:&nbsp;</span></strong><span style="font-family:SimSun;font-size:16px;">It enables you to preview the actions Terraform would take to modify your infrastructure or save a speculative plan which you can apply later.</span></li>
+        <li><strong><span style="font-family:SimSun;font-size:16px;">terraform apply:&nbsp;</span></strong><span style="font-family:SimSun;font-size:16px;">It creates or updates infrastructure depending on the configuration files.</span></li>
+    </ul>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:36.0pt;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><strong><span style="font-size:16px;">&nbsp;</span></strong></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><strong><span style="font-size:19px;">Overall Architecture Diagram</span></strong></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">This section provides you with a quick introduction to the overall cloud architecture that will be provisioned in this hands-on lab as shown in the diagram below.</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">The cloud architecture is differentiated into two parts such as network resources and logging and monitoring resources as explained in the following section.</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><strong><span style="font-size:17px;color:#0070C0;">Network resources</span></strong></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">There will be four Virtual Private Cloud (VPC) to be deployed in the Bangkok region to serve different purposes as stated below:</span></p>
+    <ul style="list-style-type: disc;margin-left:26px;">
+        <li><span style="font-size:12.0pt;">Transit VPC to control the ingress and egress traffic within the cloud environment or between the cloud environment and the outside world. A NAT gateway will be deployed in production egress VPC to allow the workloads in other isolated environments (other VPC) to be able to access the internet.</span></li>
+        <li><span style="font-size:12.0pt;">All the shared services such as Domain Name Service (DNS), Single Sign On (SSO) and etc. will be located in common service VPC. Common service VPC peers to the transit VPC so that all the traffic will be routed to the transit VPC before traveling to the destination.</span></li>
+        <li><span style="font-size:12.0pt;">Production VPC is a place where all the production workloads such as applications and databases are located. It is peers to transit VPC so that all the egress traffic will be routed to the outside world via the NAT gateway. The routing is configured to enable the production workloads to access shared services via the VPC peering in transit VPC.</span></li>
+    </ul>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><strong><span style="font-size:17px;color:#0070C0;">&nbsp;</span></strong></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><strong><span style="font-size:17px;color:#0070C0;">Logging and monitoring resources</span></strong></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">Cloud Trace Service (CTS) is enabled to perform logging and monitoring. It will report the system/data trace to the Log Tank Service (LTS) in which you can query the logs in the LTS console with a user-friendly GUI for auditing purposes. The logs can be transferred to the Object Storage Service (OBS) bucket for archive purposes with the encryption of the OBS bucket using Key Management Service (KMS). Key event notification in CTS is enabled together with the use of the Simple Message Notification (SMN) service to send an email or SMS alert to the administrator if there is any critical event occurs. The critical events to be monitored include the changes in KMS, OBS, VPC, VPN, IAM, and CTS.</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><strong><span style="font-size:19px;">Hands-on Lab</span></strong></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">In this walkthrough, you will be guided step by step on how to provision multiple resources on the Huawei Cloud environment.</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><strong><span style="font-size:17px;color:#0070C0;">Insert Account Information and Credentials</span></strong></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><strong><span style="font-size:17px;color:#0070C0;">&nbsp;</span></strong></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">1. Search for the global_vars.tf file under the <strong>global-variables-modules</strong> directory, insert the information such as account name, access and secret key, and region where you want to provision cloud resources. You may refer to this&nbsp;</span><a href="https://developer.huaweicloud.com/intl/en-us/endpoint"><span style="font-size:16px;color:#0070C0;">Region and Endpoints</span></a><span style="font-size:16px;">&nbsp;for available regions and endpoints in Huawei Cloud.</span></p>
+    <!-- <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><br>&nbsp;<em><span style="font-size:16px;">Example Result:</span></em></p> -->
+    <button type="button" onclick="show()" id="btnID">Example Result</button>
+    <img id="image009" src="terraform-workshop_files/image009.jpg"style="display: none;">
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">2. Run the <span style="background:#D9D9D9;">terraform apply</span> command to output all the defined information.</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'>&nbsp;</p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><strong><span style="font-size:17px;color:#0070C0;">Network Resources Provisioning</span></strong></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'>&nbsp;</p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">Under the <strong>hwcloud-terraform-workshop\hfa-core-account-playbook\1.hfa-network-playbook&nbsp;</strong>directory, performs the following action to provision the network resources including VPC, NAT Gateway, VPC Peering, and configuring the routing:</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">1. Search for the <strong>import_global_vars.tf</strong> file, this module is declared to inherit the account information and credentials from <strong>hwcloud-terraform-workshop\global-variables-modules</strong>.</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">2. Search for the <strong>provider.tf</strong> file to declare the Terraform provider so that Terraform can install and use them. You may obtain the latest provider version in&nbsp;</span><a href="https://registry.terraform.io/providers/huaweicloud/huaweicloud/latest/docs/resources/api_gateway_api"><span style="font-size:16px;color:#0070C0;">Huawei Terraform Provider</span></a><span style="font-size:16px;">. (Providers are executable plugins that contain code necessary to interact with the API of the service it was written for.)</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><em><span style="font-size:16px;">Example Result:</span></em></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">3. Search for the <strong>input_local_vars.tf</strong> file to insert the VPC information such as the VPC name, CIDR block, subnets, NAT gateway name and etc. The NAT gateway is created by default in the egress VPC. You may use the defined CIDR block for VPC in <strong>Overall Architecture Diagram</strong> or decide the range on your own.</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'>&nbsp;</p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><em><span style="font-size:16px;">Example Result:</span></em></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'>&nbsp;</p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">4. Search for the <strong>vpc.tf&nbsp;</strong>file, these modules are to declare the VPC resources to be provisioned in the cloud environment by calling the configuration scripts in root modules under <strong>hwcloud-terraform-workshop\terraform-hwcloud-modules\terraform-hwcloud-vpc&nbsp;</strong>directory.&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><strong><span style="font-size:16px;background:aqua;">Action Required</span></strong></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">5. Search for the <strong>vpc-peering.tf</strong> file, create multiple modules to provision the VPC peering connection in between transit VPC with other VPC as listed below:</span></p>
+    <ul style="list-style-type: disc;margin-left:26px;">
+        <li><span style="font-size:12.0pt;">Peering between transit production ingress VPC and common service VPC</span></li>
+        <li><span style="font-family:SimSun;font-size:16px;">Peering between transit production egress VPC and common service VPC</span></li>
+        <li><span style="font-size:12.0pt;">Peering between transit production ingress VPC and production VPC</span></li>
+        <li><span style="font-family:SimSun;font-size:16px;">Peering between transit production egress VPC and production VPC</span></li>
+    </ul>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">You may need to refer to the <strong>variables.tf</strong> file under <strong>hwcloud-terraform-workshop\terraform-hwcloud-vpcpeering-single-account</strong> directory to insert the required parameters for the module block.</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><em><span style="font-size:16px;">Example Result:</span></em></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><strong><span style="font-size:16px;background:aqua;">Action Required</span></strong></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">6. Search for the <strong>vpc-peering-nat-routetable.tf</strong> file, configure the route to achieve the connection as below:</span></p>
+    <ul style="list-style-type: disc;margin-left:26px;">
+        <li><span style="font-size:12.0pt;">Only instance in common service VPC able to access the internet</span></li>
+        <li><span style="font-size:12.0pt;">Instance in common service VPC able to communicate with the instance in production VPC&nbsp;</span></li>
+    </ul>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><em><span style="font-size:16px;">Example Result:</span></em></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">7. Open the terminal, enter the below commands to initialize the working directory and modules.</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;background:#D9D9D9;">cd hwcloud-terraform-workshop\hfa-core-account-playbook\1.hfa-core-account-playbook</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;background:#D9D9D9;">terraform init</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><br></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">8. Run the <span style="background:#D9D9D9;">terraform plan</span> command to view the resource that will be created on cloud environment.</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><br></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">9. Run the <span style="background:#D9D9D9;">terraform apply -auto-approve</span> command to apply the changes to the current infrastructure for resource provisioning. Once the resource is successfully created, you may verify the resource creation on the Huawei Cloud console.</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><br></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">10. Run the below commands to provision the ECS instance in common service and production VPC for network connectivity testing purposes.</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;background:#D9D9D9;">cd hwcloud-terraform-workshop\hfa-core-account-playbook\Z.hfa-test</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;background:#D9D9D9;">terraform init</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;background:#D9D9D9;">terraform apply -auto-approve</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><br></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">11. On the Huawei Cloud console, remote login to both the ECS instance in common service and production VPC.&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">Perform the following ping test and verify the result.</span></p>
+    <ul class="decimal_type" style="list-style-type: disc;margin-left:26px;">
+        <li><span style="font-size:12.0pt;">Ping 8.8.8.8 from common service ECS instance (expected result: Ping successful)</span></li>
+        <li><span style="font-size:12.0pt;">Ping 8.8.8.8 from the production ECS instance (expected result: <span style="color:#EC1567;">Ping unsuccessful</span>)</span></li>
+        <li><span style="font-family:SimSun;font-size:16px;">Ping common service ECS from production ECS (expected result: Ping successful)</span></li>
+        <li><span style="font-family:SimSun;font-size:16px;">Ping production ECS from common service ECS (expected result: Ping successful)</span></li>
+    </ul>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'>&nbsp;</p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">Congratulations! You have done the first part of the lab, let&rsquo;s move on to the remaining part of this hands-on lab.&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><strong><span style="font-size:17px;color:#0070C0;">Logging and Monitoring Resources Provisioning</span></strong></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">Under the <strong>hwcloud-terraform-workshop\hfa-core-account-playbook\2.hfa-logs-playbook&nbsp;</strong>directory, performs the following action to enable the system and data trace in CTS, and report the trace logs in LTS while storing the logs in the OBS bucket for archive purposes:</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">1. Search for the <strong>input_local_variables.tf</strong> file, insert the retention period of the logs to be stored in the OBS bucket.</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><em><span style="font-size:16px;">Example Result:</span></em></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">2. Search for the <strong>cts.tf</strong> file, and create a module to provision a data tracker and OBS bucket. You may need to refer to the <strong>variables.tf</strong> file under <strong>hwcloud-terraform-workshop\terraform-hwcloud-cts-local</strong> directory to insert the required parameters for the module block.</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><em><span style="font-size:16px;">Example Result:</span></em></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">3. Open the terminal, and run the below commands to provision logging and storage resources on the cloud environment.</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;background:#D9D9D9;">cd hwcloud-terraform-workshop\hfa-core-account-playbook\2.hfa-logs-playbook</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;background:#D9D9D9;">terraform init</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;background:#D9D9D9;">terraform apply -auto-approve</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">You may verify the result on the Huawei Cloud console.</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">Under the <strong>hwcloud-terraform-workshop\hfa-core-account-playbook\3.hfa-notify-playbook&nbsp;</strong>directory, performs the following action to enable and configure the key event notification in CTS:</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">1. Search for the <strong>input_local_variables.tf</strong> file, insert the required information such as email and phone number.</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><em><span style="font-size:16px;">Example Result:</span></em></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">2. Search for the <strong>cts-imp-notify.tf</strong> file, and create a module to provision the key event notification resource. You may need to refer to the <strong>variables.tf</strong> file under <strong>hwcloud-terraform-workshop\terraform-hwcloud-cts-notification</strong> directory to insert the required parameters for the module block.</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><em><span style="font-size:16px;">Example Result:</span></em></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">3. Open the terminal, and run the below commands to provision logging and storage resources on the cloud environment.</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;background:#D9D9D9;">cd hwcloud-terraform-workshop\hfa-core-account-playbook\2.hfa-logs-playbook</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;background:#D9D9D9;">terraform init</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;background:#D9D9D9;">terraform apply -auto-approve</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">You may verify the result on the Huawei Cloud console.</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><strong><span style="font-size:19px;">Resource Cleaning</span></strong></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">Navigate to the below directory by following the sequence to delete all the resources when it is no longer required by using <span style="background:#D9D9D9;">terraform destroy -auto-approve</span> command. Open the Huawei Cloud management console on the browser to make sure that all the resources have been deleted successfully to avoid any additional charging fees.</span></p>
+    <ol style="list-style-type: decimal;margin-left:26px;">
+        <li><span style="font-size:12.0pt;">hwcloud-terraform-workshop\hfa-core-account-playbook\3.hfa-notify-playbook</span></li>
+        <li><span style="font-size:12.0pt;">hwcloud-terraform-workshop\hfa-core-account-playbook\2.hfa-logs-playbook</span></li>
+        <li><span style="font-size:12.0pt;">hwcloud-terraform-workshop\hfa-core-account-playbook\Z.hfa-test</span></li>
+        <li><span style="font-size:12.0pt;">hwcloud-terraform-workshop\hfa-core-account-playbook\1.hfa-network-playbook</span></li>
+    </ol>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">&nbsp;</span></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><strong><span style="font-size:19px;">Conclusion</span></strong></p>
+    <p style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;line-height:normal;font-size:14px;font-family:"Times New Roman",serif;text-align:justify;'><span style="font-size:16px;">In this workshop, we have created Huawei Cloud resources with the use of Terraform. We learned how to:</span></p>
+    <ul style="list-style-type: disc;margin-left:26px;">
+        <li><span style="font-size:12.0pt;">Use Terraform to automate Huawei Cloud resource provisioning in a declarative way</span></li>
+        <li><span style="font-size:12.0pt;">Use module blocks to call configuration files in root modules under a different directory</span></li>
+        <li><span style="font-size:12.0pt;">Use Terraform to manage resources in a cloud environment</span></li>
+    </ul>
+
+    <script>
+        function show() {
+ 
+            const img009 = document.getElementById("image009");
+  if (img009.style.display === "none") {
+    img009.style.display = "block";
+  } else {
+    img009.style.display = "none";
+  }
+        }
+    </script>
+</body>
+</html>

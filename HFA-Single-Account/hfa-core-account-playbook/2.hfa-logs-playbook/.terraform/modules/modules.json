@@ -1,0 +1,1 @@
+{"Modules":[{"Key":"global_variables","Source":"../../global-variables-modules","Dir":"../../global-variables-modules"},{"Key":"","Source":"","Dir":"."},{"Key":"general_service_cts","Source":"../../terraform-hwcloud-modules/terraform-hwcloud-cts-local","Dir":"../../terraform-hwcloud-modules/terraform-hwcloud-cts-local"}]}

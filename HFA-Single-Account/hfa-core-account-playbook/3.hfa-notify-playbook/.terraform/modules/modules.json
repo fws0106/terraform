@@ -1,0 +1,1 @@
+{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"general_service_cts_notify","Source":"../../terraform-hwcloud-modules/terraform-hwcloud-cts-notification","Dir":"../../terraform-hwcloud-modules/terraform-hwcloud-cts-notification"},{"Key":"global_variables","Source":"../../global-variables-modules","Dir":"../../global-variables-modules"}]}
